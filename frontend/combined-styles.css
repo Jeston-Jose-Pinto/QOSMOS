@@ -1,0 +1,14 @@
+/*
+  combined-styles.css
+  Lightweight merge file that pulls in both primary style sheets.
+  - Imports `style.css` (main theme + generic components)
+  - Imports `circuit-builder.css` (builder-specific layout)
+
+  If you prefer a single physical file (no @import), I can concatenate
+  both files into one and replace `style.css` or create `style-merged.css`.
+*/
+
+@import url('./style.css');
+@import url('./circuit-builder.css');
+
+/* End of combined-styles.css */

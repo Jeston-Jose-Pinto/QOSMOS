@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Circuits - QOSMOS</title>
+    <link rel="stylesheet" href="my-circuits.css">
+    <link rel="stylesheet" href="index.css">
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <!-- MongoDB Realm Web SDK -->
+    <script src="https://unpkg.com/realm-web@2.0.0/dist/bundle.iife.js"></script>
+    <script src="circuit.js"></script>
+</head>
+<body class="theme-light">
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar" id="navbar">
+            <div class="navbar-content container">
+                <div class="navbar-brand">
+                    <div class="quantum-logo">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <circle cx="16" cy="8" r="2" fill="currentColor"/>
+                            <circle cx="8" cy="20" r="2" fill="currentColor"/>
+                            <circle cx="24" cy="20" r="2" fill="currentColor"/>
+                            <path d="M16 10L8 18M16 10L24 18M8 18L24 18" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                        <a href="index.html" class="navbar-title">QOSMOS</a>
+                </div>
+
+                <div class="navbar-nav" id="navbarNav">
+                    <div class="nav-links hidden" id="privateNav">
+                        <a href="dashboard.html" class="nav-link">Dashboard</a>
+                        <a href="circuit-builder.html" class="nav-link">Circuit Builder</a>
+                        <a href="my-circuits.html" class="nav-link active">My Circuits</a>
+                    </div>
+                </div>
+
+                <div class="navbar-actions">
+                    <!-- Theme Toggle -->
+                    <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+                        <span class="theme-icon light-icon">☀️</span>
+                        <span class="theme-icon dark-icon">🌙</span>
+                    </button>
+
+                    <div class="user-menu hidden" id="userMenu">
+                        <div class="user-avatar" id="userAvatar">U</div>
+                        <div class="user-dropdown" id="userDropdown">
+                            <div class="user-info">
+                                <div class="user-name" id="userName">User Name</div>
+                                <div class="user-email" id="userEmail">user@example.com</div>
+                            </div>
+                            <hr>
+                            <button class="dropdown-item" id="logoutBtn">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main id="pageContainer">
+            <!-- My Circuits Page -->
+            <div class="page" id="myCircuitsPage">
+                <div class="my-circuits">
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h1>My Quantum Circuits</h1>
+                            <p class="page-subtitle">Manage and organize your saved quantum circuits</p>
+                        </div>
+                        <div class="page-actions">
+                            <button class="btn btn-primary" id="newCircuitBtn">
+                                <span>+</span> New Circuit
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="circuits-content">
+                        <!-- Filters and Search -->
+                        <div class="circuits-filters">
+                            <div class="search-box">
+                                <input type="text" id="searchInput" placeholder="Search circuits..." class="form-input">
+                                <button class="btn btn-icon" id="searchBtn">
+                                    <span>🔍</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Empty State -->
+                        <div class="empty-state hidden" id="emptyState">
+                            <div class="empty-icon">
+                                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <path d="M12 6v6l4 2"/>
+                                    <path d="M8 8l8 8"/>
+                                    <path d="M16 8l-8 8"/>
+                                </svg>
+                            </div>
+                            <h3>No circuits found</h3>
+                            <p>Start building your first quantum circuit to see it here.</p>
+                            <button class="btn btn-primary" id="createFirstCircuitBtn">
+                                Create Your First Circuit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Modals -->
+        <div class="modal-overlay hidden" id="modalOverlay">
+            <!-- Share Circuit Modal -->
+            <div class="modal hidden" id="shareCircuitModal">
+                <div class="modal-header">
+                    <h2>Share Circuit</h2>
+                    <button class="modal-close" data-modal="shareCircuitModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="shareCircuitForm">
+                        <div class="form-group">
+                            <label for="shareLink">Share Link</label>
+                            <div class="input-group">
+                                <input type="text" id="shareLink" class="form-input" readonly>
+                                <button type="button" class="btn btn-outline" id="copyLinkBtn">Copy</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="shareVisibility">Visibility</label>
+                            <select id="shareVisibility" class="form-select">
+                                <option value="private">Private</option>
+                                <option value="public">Public</option>
+                                <option value="shared">Shared with specific users</option>
+                            </select>
+                        </div>
+                        <div class="modal-actions">
+                            <button type="button" class="btn btn-ghost modal-close" data-modal="shareCircuitModal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Delete Confirmation Modal -->
+            <div class="modal hidden" id="deleteConfirmModal">
+                <div class="modal-header">
+                    <h2>Delete Circuit</h2>
+                    <button class="modal-close" data-modal="deleteConfirmModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this circuit? This action cannot be undone.</p>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-ghost modal-close" data-modal="deleteConfirmModal">Cancel</button>
+                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay hidden" id="loadingOverlay">
+            <div class="loading-spinner"></div>
+            <p class="loading-text" id="loadingText">Loading...</p>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toastContainer"></div>
+    </div>
+
+    <script src="app.js"></script>
+
+    <!-- Quantum Assistant Chatbot -->
+    <div id="quantumChatbot">
+        <!-- Chatbot Toggle Button -->
+        <button id="chatbotToggle" class="chatbot-toggle" title="Quantum Assistant">
+            <span class="chatbot-icon">⚛️</span>
+            <span class="chatbot-badge hidden" id="chatbotBadge">!</span>
+        </button>
+
+        <!-- Chatbot Window -->
+        <div id="chatbotWindow" class="chatbot-window hidden">
+            <!-- Chatbot Header -->
+            <div class="chatbot-header">
+                <div class="chatbot-title">
+                    <span class="chatbot-avatar">⚛️</span>
+                    <div class="chatbot-info">
+                        <h3>Quantum Assistant</h3>
+                        <span class="chatbot-status" id="chatbotStatus">Online</span>
+                    </div>
+                </div>
+                <div class="chatbot-controls">
+                    <button id="chatbotMinimize" class="chatbot-control" title="Minimize">−</button>
+                    <button id="chatbotClose" class="chatbot-control" title="Close">&times;</button>
+                </div>
+            </div>
+
+            <!-- Chatbot Messages -->
+            <div id="chatbotMessages" class="chatbot-messages"></div>
+
+            <!-- Typing Indicator -->
+            <div id="typingIndicator" class="typing-indicator hidden">
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div id="quickActions" class="quick-actions">
+                <button class="quick-action" data-action="bell-state">Bell States</button>
+                <button class="quick-action" data-action="hadamard">Hadamard</button>
+                <button class="quick-action" data-action="superposition">Superposition</button>
+                <button class="quick-action" data-action="entanglement">Entanglement</button>
+            </div>
+
+            <!-- Chatbot Input -->
+            <div class="chatbot-input-area">
+                <textarea 
+                    id="chatbotInput" 
+                    class="chatbot-input" 
+                    placeholder="Ask about quantum computing..."
+                    maxlength="500"
+                    rows="1"
+                ></textarea>
+                <div class="chatbot-input-footer">
+                    <span class="char-counter" id="chatbotCounter">0/500</span>
+                    <button id="chatbotSend" class="chatbot-send" title="Send message">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot JavaScript -->
+    <script src="chatbot.js"></script>
+</body>
+</html>

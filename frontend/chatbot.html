@@ -1,0 +1,93 @@
+<!-- Quantum Chatbot Component -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QOSMOS - Professional QuantumCircuit Builder</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="chatbot.css">
+</head>
+<body>
+    <div class="chatbot-container" id="quantumChatbot">
+        <!-- Chat Toggle Button -->
+        <button class="chatbot-toggle" id="chatbotToggle" aria-label="Open Quantum Assistant">
+            <span class="chatbot-icon">🤖</span>
+            <span class="chatbot-badge hidden" id="chatbotBadge">!</span>
+        </button>
+
+        <!-- Chat Window -->
+        <div class="chatbot-window hidden" id="chatbotWindow">
+            <!-- Chat Header -->
+            <div class="chatbot-header">
+                <div class="chatbot-title">
+                    <span class="chatbot-avatar">⚛️</span>
+                    <div class="chatbot-info">
+                        <h4>QOSMOS Assistant</h4>
+                        <span class="chatbot-status online" id="chatbotStatus">Online</span>
+                    </div>
+                </div>
+                <div class="chatbot-controls">
+                    <button class="chatbot-minimize" id="chatbotMinimize" aria-label="Minimize">−</button>
+                    <button class="chatbot-close" id="chatbotClose" aria-label="Close">×</button>
+                </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message bot-message">
+                    <div class="message-avatar">⚛️</div>
+                    <div class="message-content">
+                        <p>Hello! I'm your QOSMOS Assistant. I can help you with:</p>
+                        <ul>
+                            <li>Quantum computing concepts</li>
+                            <li>Circuit building guidance</li>
+                            <li>Code generation questions</li>
+                            <li>Quantum algorithm explanations</li>
+                        </ul>
+                        <span class="message-time">Just now</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="chatbot-input-container">
+                <div class="chatbot-input-group">
+                    <textarea 
+                        class="chatbot-input" 
+                        id="chatbotInput" 
+                        placeholder="Ask me anything about quantum computing..."
+                        rows="1"
+                        maxlength="500"
+                    ></textarea>
+                    <button class="chatbot-send" id="chatbotSend" aria-label="Send message">
+                        <span class="send-icon">➤</span>
+                    </button>
+                </div>
+                <div class="chatbot-footer">
+                    <span class="chatbot-hint">Powered by Grok AI</span>
+                    <span class="chatbot-counter" id="chatbotCounter">0/500</span>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="chatbot-quick-actions" id="quickActions">
+                <button class="quick-action" data-action="bell-state">Bell State</button>
+                <button class="quick-action" data-action="hadamard">Hadamard Gate</button>
+                <button class="quick-action" data-action="superposition">Superposition</button>
+                <button class="quick-action" data-action="entanglement">Entanglement</button>
+            </div>
+        </div>
+
+        <!-- Typing Indicator -->
+        <div class="typing-indicator hidden" id="typingIndicator">
+            <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <span class="typing-text">QOSMOS Assistant is thinking...</span>
+        </div>
+    </div>
+</body>
+</html>

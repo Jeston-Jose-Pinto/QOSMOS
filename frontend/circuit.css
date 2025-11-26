@@ -1,0 +1,475 @@
+/*
+==================================================
+  QOSMOS - CIRCUIT BUILDER UI (FINAL VERSION)
+  - Small gate palette boxes
+  - Purple canvas gates
+  - Full-width bottom panel
+  - Drag/drop compatible
+==================================================
+*/
+
+/* MAIN PAGE LAYOUT */
+.circuit-builder {
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-xl);
+    gap: var(--spacing-xl);
+}
+
+/* LEFT = Palette | RIGHT = Canvas */
+.builder-content {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: var(--spacing-xl);
+}
+
+/* TOOLBAR */
+.circuit-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--color-surface);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ---------------------------------------------------
+   PALETTE (LEFT SIDE)
+--------------------------------------------------- */
+.gate-palette {
+    background: var(--color-surface);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+}
+
+.gate-palette h3 {
+    margin-bottom: var(--spacing-md);
+    font-size: 1.2rem;
+}
+
+/* Smaller boxes */
+.gate-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+}
+
+.gate-item {
+    width: 80px;
+    height: 55px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+    font-weight: 600;
+    transition: var(--transition-fast);
+    user-select: none;
+}
+
+.gate-item:hover {
+    background: var(--primary-500);
+    border-color: var(--primary-500);
+    color: white;
+}
+
+.gate-item:active {
+    cursor: grabbing;
+    transform: scale(0.95);
+}
+
+/* ---------------------------------------------------
+   CIRCUIT CANVAS (RIGHT SIDE)
+--------------------------------------------------- */
+.circuit-canvas-container {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.canvas-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-md);
+}
+
+.circuit-canvas {
+    width: 100%;
+    min-height: 260px;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    overflow-x: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* ---------------------------------------------------
+   FIX FOR BLACK GATES — CANVAS GATES = PURPLE
+--------------------------------------------------- */
+.circuit-gate {
+    min-width: 70px;
+    height: 50px;
+    background: #000 !important;      /* BLACK gate */
+    border-radius: var(--border-radius-md);
+    color: #fff !important;           /* White text */
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+}
+
+
+.circuit-gate:hover {
+    background: var(--primary-600) !important;
+}
+
+/* ---------------------------------------------------
+   BOTTOM RESULTS PANEL (FULL WIDTH)
+--------------------------------------------------- */
+.results-panel {
+    width: 100%;
+    max-width: 100%;
+    grid-column: 1 / -1;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    margin-top: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+}
+
+/* TABS */
+.results-tabs {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.tab-button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--gray-200);
+    color: var(--gray-800);
+    border-radius: var(--border-radius-md);
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.tab-button.active {
+    background: var(--primary-500);
+    color: white;
+}
+
+body.theme-dark .tab-button {
+    background: var(--gray-800);
+    color: var(--gray-300);
+}
+
+/* TAB PANELS */
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+    width: 100%;
+}
+
+/* CODE EDITOR */
+.code-editor {
+    width: 100%;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+}
+
+#codeTextarea {
+    width: 100%;
+    resize: none;
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+    border: none;
+}
+
+/* PROBABILITY CHART */
+.chart-container {
+    width: 100%;
+    height: 320px;
+}
+
+/* BLOCH SPHERE */
+.bloch-container {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: var(--spacing-md);
+}
+
+/* IMPORT SECTION */
+#importTextarea {
+    width: 100%;
+    height: 180px;
+    padding: var(--spacing-md);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+}
+
+.import-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+}
+
+/* ---------------------------------------------------
+   RESPONSIVE
+--------------------------------------------------- */
+@media (max-width: 992px) {
+    .builder-content {
+        grid-template-columns: 1fr;
+    }
+
+    .bloch-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================
+   THEME SWITCH (GLOBAL MATCH)
+   ============================ */
+
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.theme-switch input {
+    display: none;
+}
+
+/* Slider Background */
+.theme-switch .slider {
+    position: absolute;
+    inset: 0;
+    background: var(--color-border);
+    border-radius: 34px;
+    transition: 0.3s ease;
+}
+
+/* Circle */
+.theme-switch .slider:before {
+    content: "";
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    top: 3px;
+    background: var(--color-surface);
+    border-radius: 50%;
+    transition: 0.3s ease;
+}
+
+/* Checked */
+.theme-switch input:checked + .slider {
+    background: var(--color-primary);
+}
+
+.theme-switch input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+/* SIMPLE ICON TOGGLE (SUN / MOON) */
+.theme-icon-toggle {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--color-text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hide moon icon in light mode */
+.theme-icon-toggle .moon {
+    display: none;
+}
+
+/* When dark mode is active: show moon, hide sun */
+body.theme-dark .theme-icon-toggle .sun {
+    display: none;
+}
+body.theme-dark .theme-icon-toggle .moon {
+    display: inline;
+}
+
+/* Placeholder slots */
+.gate-slot {
+    width: 70px;
+    height: 50px;
+    border: 2px dashed var(--color-border);
+    border-radius: var(--border-radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-500);
+    font-size: 14px;
+    opacity: 0.5;
+}
+
+#saveCircuitModal .btn {
+    /* Prevents unwanted transformations like rotation or lift on this specific button */
+    transform: none !important; 
+}
+#saveCircuitModal .btn:hover {
+    transform: none !important;
+}
+
+/* Ensure the 'Cancel' label itself is not rotating if the button is styled oddly */
+#saveCircuitModal .btn-ghost {
+    transform: none !important;
+}
+#saveCircuitModal .btn-ghost:hover {
+    transform: none !important;
+    /* Re-add background and color changes manually if needed, without transform */
+    background-color: var(--color-bg); 
+    color: var(--color-text-primary);
+}
+
+/* --- GATE PALETTE (MOVE THIS TO circuit.css) --- */
+
+.gate-palette {
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  padding: var(--spacing-xl);
+  overflow-y: auto;
+  box-shadow: var(--shadow-sm);
+}
+
+.palette-header {
+  margin-bottom: var(--space-xl);
+  text-align: center;
+}
+
+.palette-header h3 {
+  margin-bottom: var(--space-md);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.difficulty-filter {
+  display: flex;
+  gap: var(--space-xs);
+  justify-content: center;
+}
+
+.filter-btn {
+  padding: var(--space-xs) var(--space-sm);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-weight: 500;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.gate-category {
+  margin-bottom: var(--space-xl);
+}
+
+.gate-category h4 {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-md);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  text-align: center;
+}
+
+.gate-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+.gate-tile {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #7c3aed;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  cursor: grab;
+  transition: all var(--transition-normal);
+  user-select: none;
+  font-size: 1rem;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.gate-tile:hover {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: white;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+.gate-tile:active {
+  cursor: grabbing;
+  transform: translateY(0) scale(0.98);
+}
+
+.gate-tile.dragging {
+  opacity: 0.6;
+  transform: rotate(3deg) scale(0.9);
+  box-shadow: var(--shadow-xl);
+}
+
+.toast-popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.toast-popup .toast {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    font-size: 1rem;
+}

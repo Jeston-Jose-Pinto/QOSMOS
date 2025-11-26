@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quantum Circuit Builder</title>
+  <link rel="stylesheet" href="sss.css" />
+  <!-- Three.js for 3D Bloch sphere -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Chart.js for enhanced bar charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <!-- Monaco Editor -->
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs/loader.js"></script>
+</head>
+<body>
+  <div class="container py-16">
+    <header class="mb-16">
+      <h1>Quantum Circuit Builder</h1>
+      <p class="text-secondary">Build and visualize quantum circuits with interactive Bloch sphere and results</p>
+    </header>
+    
+    <div class="main-layout">
+      <!-- Left Panel: Gate Palette -->
+      <div class="left-panel">
+        <div class="card glassmorphic">
+          <div class="card__header">
+            <h3>Gate Palette</h3>
+          </div>
+          <div class="card__body">
+            <div id="gatePalette" class="gate-palette"></div>
+          </div>
+        </div>
+        
+        <!-- Toolbar -->
+        <div class="card glassmorphic toolbar-section">
+          <div class="card__body">
+            <div class="flex gap-8 mb-8">
+              <button id="btnAddQubit" class="btn btn--secondary btn--sm">+Q</button>
+              <button id="btnRemoveQubit" class="btn btn--secondary btn--sm">−Q</button>
+              <button id="btnUndo" class="btn btn--secondary btn--sm">↶</button>
+              <button id="btnRedo" class="btn btn--secondary btn--sm">↷</button>
+              <button id="btnClear" class="btn btn--secondary btn--sm">Clear</button>
+            </div>
+            <button id="btnSimulate" class="btn btn--primary btn--full-width quantum-gradient">Simulate Circuit</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center Panel: Circuit Canvas -->
+      <div class="center-panel">
+        <div class="card glassmorphic circuit-card">
+          <div class="card__header">
+            <h3>Quantum Circuit</h3>
+            <span id="circuitInfo" class="text-secondary">3 qubits, 8 columns</span>
+          </div>
+          <div class="card__body">
+            <div id="circuitWrapper" class="circuit-wrapper">
+              <div id="circuitCanvas" class="circuit-canvas"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel: Tabbed Interface -->
+      <div class="right-panel">
+        <div class="card glassmorphic">
+          <div class="card__header">
+            <nav class="tab-nav">
+              <button class="tab-button active" data-tab="code">Code</button>
+              <button class="tab-button" data-tab="import">Import</button>
+              <button class="tab-button" data-tab="bloch">Bloch Sphere</button>
+              <button class="tab-button" data-tab="results">Results</button>
+            </nav>
+          </div>
+          <div class="card__body">
+            <!-- Code Tab -->
+            <div id="codeTab" class="tab-content active">
+              <div class="form-group">
+                <label class="form-label">Language:</label>
+                <select id="codeLangSelect" class="form-control">
+                  <option value="qasm">OpenQASM 2.0</option>
+                  <option value="qiskit">Qiskit Python</option>
+                  <option value="cirq">Cirq Python</option>
+                  <option value="qsharp">Q#</option>
+                  <option value="quil">Quil</option>
+                </select>
+              </div>
+              <div id="codeEditor" class="code-editor"></div>
+            </div>
+
+            <!-- Import Tab -->
+            <div id="importTab" class="tab-content">
+              <div class="import-container">
+                <div class="form-group">
+                  <label class="form-label">Language:</label>
+                  <select id="importLangSelect" class="form-control">
+                    <option value="qasm">OpenQASM 2.0</option>
+                    <option value="qiskit">Qiskit Python</option>
+                    <option value="cirq">Cirq Python</option>
+                    <option value="qsharp">Q#</option>
+                    <option value="quil">Quil</option>
+                  </select>
+                </div>
+                <div id="importEditor" class="import-editor"></div>
+                <div class="import-actions">
+                  <button id="btnVisualise" class="btn btn--primary btn--full-width quantum-gradient visualise-btn">
+                    <span class="btn-icon">⚛️</span>
+                    Visualise Circuit
+                  </button>
+                  <button id="btnClearImport" class="btn btn--outline btn--full-width">Clear Import</button>
+                </div>
+                <div id="importStatus" class="import-status"></div>
+              </div>
+            </div>
+
+            <!-- Bloch Sphere Tab -->
+            <div id="blochTab" class="tab-content">
+              <div class="bloch-container">
+                <div id="blochSphere" class="bloch-sphere glassmorphic-inner"></div>
+                <div class="bloch-info glassmorphic-inner">
+                  <h4>Qubit 0 State</h4>
+                  <div id="stateInfo" class="state-info">
+                    <p><strong>State:</strong> <span id="currentState">|0⟩</span></p>
+                    <p><strong>Amplitude:</strong> <span id="amplitude">1.0 + 0.0i</span></p>
+                    <p><strong>Phase:</strong> <span id="phase">0°</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Results Tab -->
+            <div id="resultsTab" class="tab-content">
+              <div class="results-container">
+                <h4>Measurement Probabilities</h4>
+                <div class="chart-wrapper glassmorphic-inner">
+                  <canvas id="resultsChart" class="results-chart"></canvas>
+                </div>
+                <div id="stateTable" class="state-table glassmorphic-inner"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

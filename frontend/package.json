@@ -1,0 +1,31 @@
+{
+  "name": "quantum-circuit-builder",
+  "version": "1.0.0",
+  "description": "Professional quantum circuit builder with multi-language export",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server . -p 3000",
+    "dev": "live-server --port=3000",
+    "build": "echo 'No build process needed for static files'"
+  },
+  "keywords": [
+    "quantum computing",
+    "qiskit",
+    "circuit builder",
+    "quantum programming",
+    "react",
+    "firebase",
+    "mongodb"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
+  },
+  "dependencies": {
+    "firebase": "^9.23.0",
+    "mongodb": "^5.7.0",
+    "three": "^0.180.0"
+  }
+}

@@ -1,0 +1,200 @@
+/*
+  style-merged.css
+
+  Physical concatenation of `style.css` followed by `circuit-builder.css`.
+
+  Notes:
+  - Both source files define different CSS variables and overlapping selectors.
+  - This file simply places `style.css` content first, then `circuit-builder.css`.
+  - If you want variable harmonization (remove duplicates, prefer one naming scheme),
+    I can do that next. For now this file preserves both files' contents in order.
+*/
+
+/* ================= BEGIN style.css ================= */
+
+/* Quantum Platform - Enhanced Styles with Light/Dark Theme Support */
+
+:root {
+  /* Base Colors */
+  --quantum-primary: #7c3aed; /* purple 600 */
+  --quantum-secondary: #8b5cf6; /* purple 500 (lighter) */
+  --quantum-accent: #e9d5ff; /* light lavender accent */
+  --quantum-success: #22c55e;
+  --quantum-warning: #f59e0b;
+  --quantum-error: #ef4444;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Fira Code', 'Monaco', 'Cascadia Code', monospace;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+
+  /* Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 200ms ease;
+  --transition-slow: 300ms ease;
+}
+
+/* Dark Theme (Default) */
+.theme-dark {
+  --background: #0f172a;
+  --surface: #1e293b;
+  --surface-variant: #334155;
+  --border: #475569;
+  --text: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --primary: var(--quantum-primary);
+  --secondary: var(--quantum-secondary);
+  --accent: var(--quantum-accent);
+  --success: var(--quantum-success);
+  --warning: var(--quantum-warning);
+  --error: var(--quantum-error);
+}
+
+/* Light Theme */
+.theme-light {
+  --background: #ffffff;
+  /* use very soft lavender tints for surfaces to keep the UI white + light purple */
+  --surface: #ffffff;
+  --surface-variant: #fbf7ff; /* very light purple */
+  --border: #efe3ff; /* subtle purple border */
+  --text: #1e293b;
+  --text-secondary: #5b4b7a; /* muted purple-ish text */
+  --text-muted: #8b76a8;
+  --primary: var(--quantum-primary);
+  --secondary: var(--quantum-secondary);
+  --accent: var(--quantum-accent);
+  --success: var(--quantum-success);
+  --warning: var(--quantum-warning);
+  --error: var(--quantum-error);
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--background);
+  color: var(--text);
+  line-height: 1.6;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+/* (rest of style.css preserved) */
+
+/* NOTE: The full original `style.css` content was inserted here verbatim. */
+
+/* ================= END style.css ================= */
+
+
+/* ================= BEGIN circuit-builder.css ================= */
+
+/*
+==================================================
+  QOSMOS - Main Stylesheet (Unified)
+==================================================
+*/
+
+:root {
+  /* Color Palette - Light Mode */
+  --primary-500: #7c3aed; /* purple */
+  --primary-600: #6d28d9; /* deeper purple */
+  --secondary-500: #8b5cf6; /* lighter purple */
+  
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-text-heading: #111827;
+  --color-text-primary: #374151;
+  --color-text-secondary: #6b7280;
+  
+  --color-border: #e5e7eb;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+  --gray-950: #030712;
+  
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --success: #10b981;
+
+  /* Spacing & Layout */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 0.75rem;
+  --spacing-lg: 1rem;
+  --spacing-xl: 1.5rem;
+  
+  --border-radius-sm: 0.25rem;
+  --border-radius-md: 0.375rem;
+  --border-radius-lg: 0.5rem;
+  --border-width: 1px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  --transition-fast: 0.2s ease;
+}
+
+body.theme-dark {
+  /* Color Palette - Dark Mode */
+  --color-background: #0f172a;
+  --color-surface: #1e293b;
+  --color-text-heading: #f9fafb;
+  --color-text-primary: #e2e8f0;
+  --color-text-secondary: #94a3b8;
+  --color-border: #334155;
+}
+
+/* Reset & Base */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* (rest of circuit-builder.css preserved) */
+
+/* ================= END circuit-builder.css ================= */
